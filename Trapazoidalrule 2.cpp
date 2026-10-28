@@ -1,3 +1,4 @@
+//1st approach using array which is inefficient-poor time and space complexity
 #include <iostream>
 using namespace std;
  int main(){
@@ -46,6 +47,50 @@ using namespace std;
 	 }
 	 double final_integral=(h*k)/4(corner_sum+2*(top+bottom+right+left)+4*R_sum)
 }
+// 2nd approach-efficient as single nested loop will execute.
+#include<iostream>
+using namespace std;
+double f(double x,double y){
+	return x*x+y*y;
+}
+int main(){
+	int n,m;
+	cout<<"enter the number of subinterval on respective axses"<<endl;
+	cin>>n>>m;
+	double h,k,a,b,c,d;
+	cout<<"enter the value of end point of subdivision on x-axis"<<endl;
+	cin>>a>>b;
+	cout<<"enter the value of end point of subdivison on y-axis"<<endl;
+	cin>>c>>d;
+	h=(b-a)/n;
+	k=(d-c)/m;
+	double cor_sum=0;
+	double LR_edsum=0;
+	double TB_edsum=0;
+	double int_sum=0;
+	for(int i=0;i<=n;i++){
+		double x=a+i*h;
+		for(int j=0;j<=m;j++){
+			double y=c +j*k;
+			
+			if((i==0 && j==0) || (i==0 && j==m) || (i==n && j==0 ) || (i==n && j==m )){
+				cor_sum+=f(x,y);
+			}
+			else if((i==0 && j>0 && j<m) || (i==n && j>0 && j<m )){
+				LR_edsum+=2*f(x,y);
+			}
+			else if((i>0 && i<n && j==0) || (i>0 && i<n && j==m)){
+				TB_edsum+=2*f(x,y);
+			}
+			else{
+				int_sum+=4*f(x,y);
+			}
+		}
+	}
+	double integral=(h*k/4)*(cor_sum+LR_edsum+TB_edsum+int_sum);
+	cout<<integral;
+}
+
  		
  		
  	
